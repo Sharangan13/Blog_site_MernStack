@@ -1,4 +1,6 @@
+const catchAsyncError = require("../middlewares/catchAsyncError");
 const blogModel = require("../models/blogModel");
+const ErrorHandler = require("../util/errorHandler");
 
 //Get all blogs URL = http://localhost:8000/api/sh/blog
 exports.getBlogs = async (req, res, next) => {
@@ -12,13 +14,13 @@ exports.getBlogs = async (req, res, next) => {
 
 //Create New Blog  URL = http://localhost:8000/api/sh/blog/new
 
-exports.createNewBlog = async (req, res, next) => {
+exports.createNewBlog = catchAsyncError(async(req, res, next) => {
   const blog = await blogModel.create(req.body);
   res.status(201).json({
     sucess: true,
     blog,
   });
-};
+});
 
 //Get signgle Blog URL = http://localhost:8000/api/sh/blog/:id
 
@@ -27,23 +29,17 @@ exports.getSingleBlog = async (req, res, next) => {
     const blog = await blogModel.findById(req.params.id);
 
     if (!blog) {
-      return res.status(404).json({
-        success: false,
-        message: "Blog not found",
-      });
+     return next( new ErrorHandler("Blog no found",400))
     }
 
-    res.status(200).json({
+    res.status(201).json({
       success: true,
       blog,
     });
+
   } catch (error) {
-    console.error(error);
-    console.log("-----------------------------------------");
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    
+    next(error);    //.............Pass the caught error to the error handling middleware............//
   }
 };
 
