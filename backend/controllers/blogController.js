@@ -1,10 +1,16 @@
+
 const catchAsyncError = require("../middlewares/catchAsyncError");
 const blogModel = require("../models/blogModel");
+const APIFeatures = require("../util/apiFeatures");
 const ErrorHandler = require("../util/errorHandler");
 
 //Get all blogs URL = http://localhost:8000/api/sh/blog
+
 exports.getBlogs = async (req, res, next) => {
-  const blogs = await blogModel.find();
+
+  const apiFeatures= new APIFeatures(blogModel.find(), req.query).search().filter(); 
+  
+  const blogs = await apiFeatures.query;
   res.status(200).json({
     sucess: true,
     count: blogs.length,
