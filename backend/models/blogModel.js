@@ -43,6 +43,10 @@ const blogSchema = new mongoose.Schema({
     required:[true,"Please enter authors name"]
   },
 
+  authorId:{
+    type:mongoose.Schema.Types.ObjectId
+  },
+
   createdAt:{
     type:Date,
     default:Date.now()

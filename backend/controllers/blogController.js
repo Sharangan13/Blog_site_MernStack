@@ -21,6 +21,8 @@ exports.getBlogs = async (req, res, next) => {
 //Create New Blog  URL = http://localhost:8000/api/sh/blog/new
 
 exports.createNewBlog = catchAsyncError(async(req, res, next) => {
+
+  req.body.authorId = req.user.id;
   const blog = await blogModel.create(req.body);
   res.status(201).json({
     sucess: true,
