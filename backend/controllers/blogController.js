@@ -4,7 +4,10 @@ const blogModel = require("../models/blogModel");
 const APIFeatures = require("../util/apiFeatures");
 const ErrorHandler = require("../util/errorHandler");
 
-//Get all blogs URL = http://localhost:8000/api/sh/blog
+
+
+
+// 01. Get all blogs URL = http://localhost:8000/api/sh/blog     -------------------------------------------------------------------
 
 exports.getBlogs = async (req, res, next) => {
 
@@ -18,7 +21,10 @@ exports.getBlogs = async (req, res, next) => {
   });
 };
 
-//Create New Blog  URL = http://localhost:8000/api/sh/blog/new
+
+
+
+// 02. Create New Blog  URL = http://localhost:8000/api/sh/blog/new      -------------------------------------------------------------------
 
 exports.createNewBlog = catchAsyncError(async(req, res, next) => {
 
@@ -30,7 +36,10 @@ exports.createNewBlog = catchAsyncError(async(req, res, next) => {
   });
 });
 
-//Get signgle Blog URL = http://localhost:8000/api/sh/blog/:id
+
+
+
+// 03. Get signgle Blog URL = http://localhost:8000/api/sh/blog/:id     -------------------------------------------------------------------
 
 exports.getSingleBlog = async (req, res, next) => {
   try {
@@ -47,13 +56,15 @@ exports.getSingleBlog = async (req, res, next) => {
 
   } catch (error) {
     
-    next(error);    //.............Pass the caught error to the error handling middleware............//
+    next(error);    // Pass the caught error to the error handling middleware.   //
   }
+  
 };
 
 
 
-// Update Blog URL = http://localhost:8000/api/sh/blog/:id
+
+// 04. Update Blog URL = http://localhost:8000/api/sh/blog/:id     -------------------------------------------------------------------
 
 exports.updateBlog = async (req, res, next) => {
   let blog = await blogModel.findById(req.params.id);
@@ -78,7 +89,10 @@ exports.updateBlog = async (req, res, next) => {
 };
 
 
-//Delete Blog URL = http://localhost:8000/api/sh/blog/:id
+
+
+
+// 05. Delete Blog URL = http://localhost:8000/api/sh/blog/:id     -------------------------------------------------------------------
 
 exports.deleteBlog = async (req,res,next)=>{
     

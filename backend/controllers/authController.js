@@ -6,6 +6,10 @@ const ErrorHandler = require("../util/errorHandler");
 const sendToken = require("../util/jwtken");
 const crypto  = require("crypto");
 
+
+
+// 01. Register User    URL- http://localhost:8000/api/sh/register    -------------------------------------------------------------------
+
 exports.registerUser = catchAsyncError( async (req, res, next)=>{
     const {name,email,password,avatar} =req.body
 
@@ -21,6 +25,10 @@ exports.registerUser = catchAsyncError( async (req, res, next)=>{
 
 
 })
+
+
+
+// 02. Login user    URL - http://localhost:8000/api/sh/login    -------------------------------------------------------------------
 
 exports.loginUser = catchAsyncError(async(req,res,next)=>{
 
@@ -45,7 +53,27 @@ exports.loginUser = catchAsyncError(async(req,res,next)=>{
 
     sendToken(user, 201, res)
 
-})
+});
+
+
+
+
+// 03. Logout User     URL - http://localhost:8000/api/sh/logout    -------------------------------------------------------------------
+
+exports.logoutUser = (req,res,next)=>{
+    res.cookie('token',null,{
+        expires: new Date(Date.now()),
+        httpOnly:true
+    }).status(200).json({
+        success:true,
+        message:"Logout Succesfully"
+    })
+}
+
+
+
+
+// 04. Forgot Password    URL - http://localhost:8000/api/sh/password/forgot     -------------------------------------------------------------------
 
 exports.forgotPassword = catchAsyncError(async (req,res,next)=>{
     const user = await userModel.findOne({email:req.body.email})
@@ -89,6 +117,10 @@ exports.forgotPassword = catchAsyncError(async (req,res,next)=>{
 })  
 
 
+
+
+
+// 05. Reset Password    URL - http://localhost:8000/api/sh/password/reset/:token   -------------------------------------------------------------------
 
 exports.resetPassword = catchAsyncError(async (req,res,next)=>{
 

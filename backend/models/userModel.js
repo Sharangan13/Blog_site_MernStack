@@ -4,6 +4,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto  = require("crypto");
 
+
+// Defining a Mongoose schema for the user
+
 const userSchema = new mongoose.Schema({
     name:{
         type:String,
@@ -46,16 +49,17 @@ const userSchema = new mongoose.Schema({
 
 })
 
+
+// Middleware to hash the password before saving it
 userSchema.pre('save', async function (next) {
+
    // Hash the password only if it's modified or new
    if (!this.isModified('password')) {
        return next();
    }
 
    try {
-       // Generate a salt
        const salt = await bcrypt.genSalt(12);
-       // Hash the password with the salt
        this.password = await bcrypt.hash(this.password, salt);
        next();
    } catch (error) {
@@ -63,14 +67,20 @@ userSchema.pre('save', async function (next) {
    }
 });
 
+
+
 userSchema.methods.getJwtToken = function(){
    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_TOKEN_EXPIRES });
 }
 
+
+// Method to validate entered password against stored hashed password
 userSchema.methods.isValidPassword = async function(enteredPassword){
    return await bcrypt.compare(enteredPassword,this.password)
 }
 
+
+// Method to generate and return a reset password token  
 userSchema.methods.getResetToken = function(){
    // Generate Token
    const passwordResetToken = crypto.randomBytes(20).toString('hex');
@@ -78,8 +88,7 @@ userSchema.methods.getResetToken = function(){
    // Generate Hash and set to passwordResetToken
    this.resetPasswordToken = crypto.createHash('sha256').update(passwordResetToken).digest('hex');
 
-
-   //set Token expire Time
+   //set Token expire Time - 5min
    this.resetPasswordTokenExpire = Date.now() + 5*60*1000 ;
 
    return passwordResetToken;
@@ -88,6 +97,6 @@ userSchema.methods.getResetToken = function(){
 }
 
 
-const userSchemaModel = mongoose.model('user',userSchema);
+const userSchemaModel = mongoose.model('user',userSchema);          // Creating a Mongoose model from the schema
 
 module.exports = userSchemaModel;

@@ -5,10 +5,11 @@ const {isAuthendicatedUser,authorizeRole}= require("../middlewares/authendicate"
 
 
 
-router.route('/blog').get(isAuthendicatedUser, getBlogs);
+router.route('/blog').get(getBlogs);
 
-router.route('/blog/new').post(isAuthendicatedUser,authorizeRole('user'),createNewBlog);
+router.route('/blog/new').post(isAuthendicatedUser,authorizeRole('user'),createNewBlog);  // only Authendicated user can create a new blog
 
 router.route('/blog/:id').get(getSingleBlog).put(updateBlog).delete(deleteBlog);
 
 module.exports = router;
+

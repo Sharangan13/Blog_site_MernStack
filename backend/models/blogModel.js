@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+
+// Defining a Mongoose schema for the blog
+
 const blogSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -53,6 +56,8 @@ const blogSchema = new mongoose.Schema({
   }
 });
 
-let blogSchemaModel= mongoose.model('blog',blogSchema)
+
+
+let blogSchemaModel= mongoose.model('blog',blogSchema)        // Creating a Mongoose model from the schema
 
 module.exports = blogSchemaModel;
