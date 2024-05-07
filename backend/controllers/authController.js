@@ -1,3 +1,4 @@
+const { AsyncLocalStorage } = require("async_hooks");
 const { request } = require("../app");
 const catchAsyncError = require("../middlewares/catchAsyncError");
 const userModel =require("../models/userModel");
@@ -148,5 +149,156 @@ exports.resetPassword = catchAsyncError(async (req,res,next)=>{
     await user.save({validateBeforeSave:false})
 
     sendToken(user,201,res)
+
+})
+
+
+
+
+
+// Get User Profile     URL - http://localhost:8000/api/sh/myprofile
+
+exports.getUserProfile = catchAsyncError( async(req, res, next)=>{
+   const user = await userModel.findById(req.user.id)
+   res.status(200).json({
+    success:true,
+    user
+   })
+
+})
+
+
+
+
+
+// Change Password    URL - http://localhost:8000/api/sh/password/change
+
+exports.changePassword = catchAsyncError(async (req,res,next)=>{
+    const user = await userModel.findById(req.user.id).select('+password')
+
+    // chaeck old password
+    if(! await user.isValidPassword(req.body.oldPassword)){
+        return next( new ErrorHandler("Old password is Incorrect",401))
+
+    }
+
+    // assigning new password
+    user.password=req.body.password
+    await user.save();
+    res.status(200).json({
+        success:true,
+        message:"Password updated"
+       })
+
+
+
+})
+
+
+
+
+// Update User Profile
+
+exports.updateProfile = catchAsyncError(async (req,res,next)=>{
+    const newUserData = {
+        name:req.body.name,
+        email:req.body.email
+    }
+
+    const user = await userModel.findByIdAndUpdate(req.user.id, newUserData,{
+        new:true,
+        runValidators:true
+    })
+
+    res.status(200).json({
+        success:true,
+        message:"Profile updated",
+        user
+       })
+
+
+})
+
+
+
+
+
+
+// ----------------------------------SUPER ADMIN FUNCTIONS---------------------------------------  //
+
+
+
+
+
+// Admin -  Get All Users
+
+exports.adminGetAllUsers = catchAsyncError(async (req,res,next)=>{
+    const users = await userModel.find();
+    res.status(200).json({
+        success:true,
+        users
+       })
+
+})
+
+
+
+
+// Admin -  Get Specific user
+
+exports.adminGetSpecificUser = catchAsyncError(async (req,res,next)=>{
+    const user = await userModel.findById(req.params.id);
+
+    if(!user){
+        return next(new ErrorHandler(`User not found with this id ${req.params.id}`))
+    }
+    res.status(200).json({
+        success:true,
+        user
+       })
+
+})
+
+
+
+
+// Admin -  Admin Update user details
+
+exports.adminUpdateUserDetails = catchAsyncError(async (req,res,next)=>{
+    const newUserData = {
+        name:req.body.name,
+        email:req.body.email,
+        role:req.body.role
+    }
+
+    const user = await userModel.findByIdAndUpdate(req.params.id, newUserData,{
+        new:true,
+        runValidators:true
+    })
+
+    res.status(200).json({
+        success:true,
+        message:"Profile updated",
+        user
+       })
+})
+
+
+
+
+//Admin -  Delete user
+
+exports.adminDeleteUser = catchAsyncError(async (req,res,next)=>{
+    const user = await userModel.findById(req.params.id);
+
+    if(!user){
+        return next(new ErrorHandler(`User not found with this id ${req.params.id}`))
+    }
+
+    await user.deleteOne();
+    res.status(200).json({
+        success:true,
+        message:"User sucessfully deleted"
+    })
 
 })
