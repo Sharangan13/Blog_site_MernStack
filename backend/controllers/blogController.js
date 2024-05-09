@@ -4,10 +4,10 @@ const blogModel = require("../models/blogModel");
 const APIFeatures = require("../util/apiFeatures");
 const ErrorHandler = require("../util/errorHandler");
 
+// -------------------------------------Gust,User,Admin Functions--------------------------------------------------//
 
 
-
-// 01. Get all blogs URL = http://localhost:8000/api/sh/blog     -------------------------------------------------------------------
+// 01. Get all blogs      URL = http://localhost:8000/api/sh/blog     -------------------------------------------------------------------
 
 exports.getBlogs = async (req, res, next) => {
 
@@ -24,22 +24,8 @@ exports.getBlogs = async (req, res, next) => {
 
 
 
-// 02. Create New Blog  URL = http://localhost:8000/api/sh/blog/new      -------------------------------------------------------------------
 
-exports.createNewBlog = catchAsyncError(async(req, res, next) => {
-
-  req.body.authorId = req.user.id;
-  const blog = await blogModel.create(req.body);
-  res.status(201).json({
-    sucess: true,
-    blog,
-  });
-});
-
-
-
-
-// 03. Get signgle Blog URL = http://localhost:8000/api/sh/blog/:id     -------------------------------------------------------------------
+// 03. Get single Blog        URL = http://localhost:8000/api/sh/blog/:id     -------------------------------------------------------------------
 
 exports.getSingleBlog = async (req, res, next) => {
   try {
@@ -63,8 +49,25 @@ exports.getSingleBlog = async (req, res, next) => {
 
 
 
+//------------------------User,Admin Functions------------------------------//
 
-// 04. Update Blog URL = http://localhost:8000/api/sh/blog/:id     -------------------------------------------------------------------
+
+// 02. Create New Blog       URL = http://localhost:8000/api/sh/blog/new      -------------------------------------------------------------------
+
+exports.createNewBlog = catchAsyncError(async(req, res, next) => {
+
+  req.body.authorId = req.user.id;
+  const blog = await blogModel.create(req.body);
+  res.status(201).json({
+    sucess: true,
+    blog,
+  });
+});
+
+
+
+
+// 04. Update Blog         URL = http://localhost:8000/api/sh/blog/:id     -------------------------------------------------------------------
 
 exports.updateBlog = async (req, res, next) => {
   let blog = await blogModel.findById(req.params.id);
@@ -92,7 +95,7 @@ exports.updateBlog = async (req, res, next) => {
 
 
 
-// 05. Delete Blog URL = http://localhost:8000/api/sh/blog/:id     -------------------------------------------------------------------
+// 05. Delete Blog          URL = http://localhost:8000/api/sh/blog/:id     -------------------------------------------------------------------
 
 exports.deleteBlog = async (req,res,next)=>{
     
@@ -114,3 +117,22 @@ exports.deleteBlog = async (req,res,next)=>{
 }
 
 
+
+
+
+// ------------------------User Function----------------------------//
+
+
+
+// 06.  Get Logged in User Blogs             URL =  http://localhost:8000/api/sh/myblogs    -------------------------------------------------------------------
+
+
+exports.myBlogs = catchAsyncError(async (req,res,next)=>{
+
+  const myBlogs = await blogModel.find({authorId:req.user.id})
+
+  res.status(200).json({
+    sucess: true,
+    myBlogs
+  });
+})

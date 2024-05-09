@@ -14,7 +14,11 @@ router.route('/password/change').put(isAuthendicatedUser,changePassword);
 router.route('/update').put(isAuthendicatedUser,updateProfile);
 
 
-// Admin routes
+
+
+
+// -----------------------------------Admin routes--------------------------------------
+
 
 router.route('/admin/users').get(isAuthendicatedUser,authorizeRole('admin'),adminGetAllUsers);
 
