@@ -14,6 +14,7 @@ exports.getBlogs = async (req, res, next) => {
   const apiFeatures= new APIFeatures(blogModel.find(), req.query).search().filter(); 
   
   const blogs = await apiFeatures.query;
+  // await new Promise(resolve=>setTimeout(resolve,3000))    check loader working correct
   res.status(200).json({
     sucess: true,
     count: blogs.length,
