@@ -2,9 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 
 const blogSlice = createSlice({
-    name: 'blog',
+    name: 'blogDetail',
     initialState: {
-        loading: false
+        loading: true,
+        blog:{}
     },
     reducers: {
         blogRequest(state, action){

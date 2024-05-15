@@ -1,11 +1,13 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import {thunk} from 'redux-thunk';
 import blogsReducer from "./slices/BlogsSlice";
+import blogReducer from "./slices/BlogSlice";
 
 
 
 const reducer = combineReducers({
-    blogsState:blogsReducer
+    blogsState:blogsReducer,
+    blogState:blogReducer
 
 
 })

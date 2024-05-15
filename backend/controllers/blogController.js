@@ -15,6 +15,7 @@ exports.getBlogs = async (req, res, next) => {
   
   const blogs = await apiFeatures.query;
   // await new Promise(resolve=>setTimeout(resolve,3000))    check loader working correct
+  // return next(new ErrorHandler("Testing msg............",400))  check toast loader to show error message 
   res.status(200).json({
     sucess: true,
     count: blogs.length,

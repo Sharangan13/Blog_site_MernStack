@@ -102,6 +102,11 @@ nav {
   height: 150px;
 }
 
+.blog-detail-img {
+  width: 50%;
+  height: auto;
+}
+
 .ratings {
   font-size: 1.2rem;
   color: #fdcc0d;
