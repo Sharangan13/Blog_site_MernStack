@@ -8,6 +8,8 @@ import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BlogDetails from './components/blog/BlogDetails';
 import SearchBlog from './components/blog/SearchBlog';
+import Login from './components/user/Login';
+import Register from './components/user/Register';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path='/' element={<Home/>}/>
         <Route path='/search/:keyword' element={<SearchBlog/>}/>
         <Route path='/blog/:id' element={<BlogDetails/>}/>
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/register' element={<Register/>}/>
      </Routes>
      
      <Footer/>
