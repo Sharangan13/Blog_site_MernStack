@@ -34,10 +34,11 @@ const authSlice = createSlice({
         clearError(state, action){
             return {
                 ...state,
-                error: null
+                error: null,
             }
         },
 
+       
         registerRequest(state, action){
             return {
                 ...state,
@@ -55,9 +56,156 @@ const authSlice = createSlice({
         registerFail(state, action){
             return {
                 ...state,
+                loading: false,
                 error:  action.payload
             }
         },
+
+        loadUserRequest(state, action){
+            return {
+                ...state,
+                loading: true,
+                isAuthenticated:false
+            }
+        },
+        loadUserSuccess(state, action){
+            return {
+                loading: false,
+                isAuthenticated:true,
+                user: action.payload.user
+                
+            }
+        },
+        loadUserFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload
+            }
+        },
+
+        logOutSuccess(state, action){
+            return {
+                loading: false,
+                isAuthenticated:false,
+              
+                
+            }
+        },
+        logOutFail(state, action){
+            return {
+                ...state,
+                error:  action.payload
+            }
+        },
+
+
+        updateProfileRequest(state, action){
+            return {
+                ...state,
+                loading: true,
+                isUpdated:false
+            }
+        },
+        updateProfileSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+                user: action.payload.user,
+                isUpdated:true
+                
+            }
+        },
+        updateProfileFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload
+            }
+        },
+
+        clearUpdatedState(state, action){
+            return {
+                ...state,
+                isUpdated:false
+            }
+        },
+
+        updatePasswordRequest(state, action){
+            return {
+                ...state,
+                loading: true,
+                isUpdated:false
+            }
+        },
+        updatePasswordSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+                isUpdated:true
+                
+            }
+        },
+        updatePasswordFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload
+            }
+        },
+
+
+        forgotPasswordRequest(state, action){
+            return {
+                ...state,
+                loading: true,
+                message:null
+            }
+        },
+        forgotPasswordSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+               message:action.payload.message
+                
+            }
+        },
+        forgotPasswordFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload
+            }
+        },
+
+
+        resetPasswordRequest(state, action){
+            return {
+                ...state,
+                loading: true,
+                resetPasswordvalue:false
+               
+            }
+        },
+        resetPasswordSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+               isAuthenticated:true,
+               resetPasswordvalue:true,
+               user:action.payload.user
+                
+            }
+        },
+        resetPasswordFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload
+            }
+        }
+
+        
        
     }
 });
@@ -73,7 +221,32 @@ export const {
 
     registerRequest,
     registerSuccess,
-    registerFail
+    registerFail,
+
+    loadUserRequest,
+    loadUserSuccess,
+    loadUserFail,
+
+    logOutSuccess,
+    logOutFail,
+
+    updateProfileRequest,
+    updateProfileSuccess,
+    updateProfileFail,
+
+    clearUpdatedState,
+
+    updatePasswordRequest,
+    updatePasswordSuccess,
+    updatePasswordFail,
+
+    forgotPasswordRequest,
+    forgotPasswordSuccess,
+    forgotPasswordFail,
+
+    resetPasswordRequest,
+    resetPasswordSuccess,
+    resetPasswordFail
 
 } = actions;
 

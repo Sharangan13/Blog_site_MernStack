@@ -1,6 +1,3 @@
-
-const ErrorHandler = require("../util/errorHandler");
-
 module.exports = (err,req,res, next)=>{
 
     err.statusCode =err.statusCode || 500
@@ -44,13 +41,17 @@ module.exports = (err,req,res, next)=>{
             err.statusCode = 400;
             
         }
+
         
-        // Handling duplicate key errors
-        if(err.code == 11000){
-            let message = `Duplicate ${Object.keys(err.keyValue)} error.`
-            error = new Error(message);
-            err.statusCode = 400;
-        }
+        
+        // // Handling duplicate key errors
+        // if(err.code == 11000) {
+        //     let message = `Duplicate ${Object.keys(err.keyValue)} error`;
+        //     error = new Error(message)
+        //     err.statusCode = 400
+        // }
+
+
 
         // Handling invalid JSON Web Token errors
         if(err.name == 'JSONWebTokenError') {

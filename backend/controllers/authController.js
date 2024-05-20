@@ -12,9 +12,15 @@ const crypto  = require("crypto");
 // 01. Register User    URL- http://localhost:8000/api/sh/register    -------------------------------------------------------------------
 
 exports.registerUser = catchAsyncError( async (req, res, next)=>{
-    const {name,email,password,avatar} =req.body
+    const {name,email,password} =req.body
+    let avatar;
+    if(req.file){
+        avatar=`${process.env.BACKEND_URL}/upload/user/${req.file.originalname}`
+    }
 
-   const newUser = await userModel.create({
+ try {
+
+    const newUser = await userModel.create({
         name,
         email,
         password,
@@ -22,6 +28,14 @@ exports.registerUser = catchAsyncError( async (req, res, next)=>{
     });
 
     sendToken(newUser,201,res)
+    
+ } catch (err) {
+    if (err.code === 11000) {
+        const message = `This ${Object.keys(err.keyValue)[0]} already used please enter another ${Object.keys(err.keyValue)[0]}`;
+        return next(new ErrorHandler(message, 400));
+    }
+    return next (new ErrorHandler(err.message),500)
+ }  
   
 
 
@@ -89,7 +103,7 @@ exports.forgotPassword = catchAsyncError(async (req,res,next)=>{
 
 
     //create reset URL
-    const resetURL = `${req.protocol}://${req.get('host')}/api/sh/password/reset/${resetToken}`;
+    const resetURL = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
 
     const message = `Your password reset URL is as follows ${resetURL}`;
 
@@ -200,9 +214,15 @@ exports.changePassword = catchAsyncError(async (req,res,next)=>{
 // Update User Profile
 
 exports.updateProfile = catchAsyncError(async (req,res,next)=>{
-    const newUserData = {
+    let newUserData = {
         name:req.body.name,
         email:req.body.email
+    }
+
+    let avatar;
+    if(req.file){
+        avatar=`${process.env.BACKEND_URL}/upload/user/${req.file.originalname}`
+        newUserData={...newUserData,avatar}
     }
 
     const user = await userModel.findByIdAndUpdate(req.user.id, newUserData,{

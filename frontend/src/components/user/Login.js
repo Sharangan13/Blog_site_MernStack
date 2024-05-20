@@ -25,12 +25,14 @@ import { login,clearAuthError } from '../../actions/UserActions';
     useEffect(() => {
         if(isAuthenticated) {
             navigate(`/`)
+            return
         }
 
         if(error)  {
             toast(error, {
                 position: "bottom-center",
                 type:"error",
+                theme:"dark",
                 onOpen: ()=>{dispatch(clearAuthError)}
                
                 

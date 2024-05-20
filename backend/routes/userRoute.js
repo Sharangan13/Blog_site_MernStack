@@ -3,15 +3,26 @@ const userSchemaModel = require("../models/userModel");
 const { registerUser, loginUser, forgotPassword, resetPassword, logoutUser, getUserProfile, changePassword, updateProfile, adminGetAllUsers, adminGetSpecificUser, adminUpdateUserDetails, adminDeleteUser } = require("../controllers/authController");
 const { isAuthendicatedUser, authorizeRole } = require("../middlewares/authendicate");
 const router = express.Router();
+const multer = require("multer")
+const path = require("path")
 
-router.route('/register').post(registerUser);
+const upload=multer({storage:multer.diskStorage({
+    destination:function(req,file,cb){
+        cb(null, path.join(__dirname,'..','upload/user'))
+    },
+    filename:function(req,file,cb){
+        cb(null,file.originalname)
+    }
+})})
+
+router.route('/register').post(upload.single('avatar'),registerUser);
 router.route('/login').post(loginUser);
 router.route('/logout').get(logoutUser);
 router.route('/password/forgot').post(forgotPassword);
 router.route('/password/reset/:token').post(resetPassword);
 router.route('/myprofile').get(isAuthendicatedUser,getUserProfile);
 router.route('/password/change').put(isAuthendicatedUser,changePassword);
-router.route('/update').put(isAuthendicatedUser,updateProfile);
+router.route('/update').put(isAuthendicatedUser,upload.single('avatar'),updateProfile);
 
 
 
