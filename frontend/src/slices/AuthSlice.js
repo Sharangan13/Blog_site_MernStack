@@ -79,8 +79,7 @@ const authSlice = createSlice({
         loadUserFail(state, action){
             return {
                 ...state,
-                loading: false,
-                error:  action.payload
+                loading: false
             }
         },
 

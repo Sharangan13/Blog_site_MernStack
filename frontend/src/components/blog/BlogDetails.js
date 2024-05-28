@@ -20,8 +20,8 @@ export default function BlogDetails(){
     
 
     return (
-        <Fragment>
-            {loading?<Loader/>:<Fragment>          
+      <Fragment>
+        {loading?<Loader/>:<Fragment>          
             
            
            <div className="col-sm-12  my-3">
@@ -29,7 +29,7 @@ export default function BlogDetails(){
                   <div className="card p-3 rounded">
                     <img
                       className="blog-detail-img  mx-auto"
-                      src={`../${blog.images[0].image}`}
+                      src={`${blog.images[0].image}`}
                       alt="blog"
                     />
                     <div className="card-body d-flex flex-column">
@@ -47,7 +47,7 @@ export default function BlogDetails(){
                   </div>
                 </div> 
                 </Fragment>}
-            
-        </Fragment>
+      </Fragment>
+        
       )
 }

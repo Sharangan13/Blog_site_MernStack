@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { blogFail, blogRequest, blogSuccess } from '../slices/BlogSlice';
+import { blogFail, blogRequest, blogSuccess, createBlogFail, createBlogRequest, createBlogSuccess } from '../slices/BlogSlice';
 
 
 export const getblog = (id) => async (dispatch) => {
@@ -11,6 +11,21 @@ export const getblog = (id) => async (dispatch) => {
     } catch (error) {
         
         dispatch(blogFail(error.response.data.message))
+    }
+    
+}
+
+
+
+export const createNewBlog = blogData => async (dispatch) => {
+
+    try {  
+        dispatch(createBlogRequest()) 
+        const { data }  =  await axios.post(`/api/sh/blog/new`,blogData);
+        dispatch(createBlogSuccess(data))
+    } catch (error) {
+        
+        dispatch(createBlogFail(error.response.data.message))
     }
     
 }

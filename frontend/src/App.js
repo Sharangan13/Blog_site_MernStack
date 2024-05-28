@@ -20,6 +20,11 @@ import CreateBlog from './components/blog/CreateBlog';
 import UpdatePassword from './components/user/UpdatePassword';
 import ResetPassword from './components/user/ResetPassword';
 import ForgotPassword from './components/user/ForgotPassword';
+import Dashboard from './components/admin/Dashboard';
+import BlogList from './components/admin/BlogList';
+import UserList from './components/admin/UserList';
+import AdminList from './components/admin/AdminList';
+import MyBlogs from './components/blog/MyBlogs';
 
 function App() {
 
@@ -44,11 +49,23 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/myprofile' element={<ProtectedRoute><Profile/></ProtectedRoute>}/>
+        <Route path='/myblogs' element={<ProtectedRoute><MyBlogs/></ProtectedRoute>}/>
         <Route path='/myprofile/update' element={<ProtectedRoute><UpdateProfile/></ProtectedRoute>}/>
         <Route path='/myprofile/update/password' element={<ProtectedRoute><UpdatePassword/></ProtectedRoute>}/>
         <Route path='/blog/new' element={<ProtectedRoute><CreateBlog/></ProtectedRoute>}/>
         <Route path='/password/forgot' element={<ForgotPassword/>}/>
         <Route path='/password/reset/:token' element={<ResetPassword/>}/>
+     </Routes>
+
+
+      {/* ------------------------Admin routs-------------------------- */}
+     <Routes>
+     <Route path='/admin/dashboard' element={<ProtectedRoute isAdmin={true}><Dashboard/></ProtectedRoute>}/>
+     <Route path='/admin/blogs' element={<ProtectedRoute isAdmin={true}><BlogList/></ProtectedRoute>}/>
+     <Route path='/admin/users' element={<ProtectedRoute isAdmin={true}><UserList/></ProtectedRoute>}/>
+     <Route path='/admin/admins' element={<ProtectedRoute isAdmin={true}><AdminList/></ProtectedRoute>}/>
+
+
      </Routes>
      
      <Footer/>

@@ -2,7 +2,7 @@ import {  format } from "date-fns";
 import { Fragment } from "react";
 import {Link} from "react-router-dom";
 
-export default function Blog({ blog }) {
+export default function MyBlogContent({ blog }) {
 
   const truncateText = (text, wordLimit) => {
     const words = text.split(" ");
@@ -33,6 +33,9 @@ export default function Blog({ blog }) {
 
           <Link to={`/blog/${blog._id}`} id="view_btn" className="btn btn-block btn-primary">
             Read more
+          </Link>
+          <Link to={`/blog/${blog._id}`} id="view_btn" className="btn btn-block btn-primary">
+            Edit
           </Link>
         </div>
       </div>

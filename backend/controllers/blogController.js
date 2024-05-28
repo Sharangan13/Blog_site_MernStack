@@ -58,11 +58,27 @@ exports.getSingleBlog = async (req, res, next) => {
 
 exports.createNewBlog = catchAsyncError(async(req, res, next) => {
 
+
+  let images = []
+    let BASE_URL = process.env.BACKEND_URL;
+    if(process.env.NODE_ENV === "production"){
+        BASE_URL = `${req.protocol}://${req.get('host')}`
+    }
+    
+    if(req.files && req.files.length > 0) {
+        req.files.forEach( file => {
+            let url = `${BASE_URL}/upload/blog/${file.originalname}`;
+            images.push({ image: url })
+        })
+    }
+
+    req.body.images = images;
+
   req.body.authorId = req.user.id;
   const blog = await blogModel.create(req.body);
   res.status(201).json({
     sucess: true,
-    blog,
+    blog
   });
 });
 
@@ -138,3 +154,22 @@ exports.myBlogs = catchAsyncError(async (req,res,next)=>{
     myBlogs
   });
 })
+
+
+
+// 07. Get Admin Blogs
+
+exports.getAdminBlogs = async (req, res, next) => {
+
+  const apiFeatures= new APIFeatures(blogModel.find(), req.query).search().filter(); 
+  
+  const blogs = await apiFeatures.query;
+  // await new Promise(resolve=>setTimeout(resolve,3000))    check loader working correct
+  // return next(new ErrorHandler("Testing msg............",400))  check toast loader to show error message 
+  res.status(200).json({
+    sucess: true,
+    count: blogs.length,
+    blogs,
+  });
+};
+
