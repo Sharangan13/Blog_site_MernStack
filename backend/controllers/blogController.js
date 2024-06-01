@@ -90,6 +90,28 @@ exports.createNewBlog = catchAsyncError(async(req, res, next) => {
 exports.updateBlog = async (req, res, next) => {
   let blog = await blogModel.findById(req.params.id);
 
+  //image upload
+  let images = []
+
+  // if images not cleared we keep existing images
+  if(req.body.imagesCleared === 'false'){
+    images =blog.images;
+  }
+    let BASE_URL = process.env.BACKEND_URL;
+    if(process.env.NODE_ENV === "production"){
+        BASE_URL = `${req.protocol}://${req.get('host')}`
+    }
+    
+    if(req.files && req.files.length > 0) {
+        req.files.forEach( file => {
+            let url = `${BASE_URL}/upload/blog/${file.originalname}`;
+            images.push({ image: url })
+        })
+    }
+    req.body.images = images;
+
+
+
     if (!blog) {
       return res.status(404).json({
         success: false,

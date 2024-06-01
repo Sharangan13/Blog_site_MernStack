@@ -5,9 +5,9 @@ import { Link } from "react-router-dom"
 import { MDBDataTable} from 'mdbreact';
 import {toast } from 'react-toastify'
 import Sidebar from "./Sidebar"
-import { clearError } from "../../slices/UsersSlice"
+import { adminDeleteUserSuccess, clearError } from "../../slices/UsersSlice"
 
-import { adminGetUsersDetails } from "../../actions/AdminAction";
+import { AdminDeleteUser, adminGetUsersDetails } from "../../actions/AdminAction";
 import Loader from "../layouts/Loder";
 
 export default function UserList() {
@@ -19,7 +19,8 @@ export default function UserList() {
         return text;
     };
 
-    const { users = [], loading = true, error }  = useSelector(state => state.usersState)
+    const { users = [], loading = true, error,isAdminDeleteUser }  = useSelector(state => state.usersState)
+    
     
     const dispatch = useDispatch();
 
@@ -73,10 +74,10 @@ export default function UserList() {
         return data;
     }
 
-    // const deleteHandler = (e, id) => {
-    //     e.target.disabled = true;
-    //     dispatch(deleteProduct(id))
-    // }
+    const deleteHandler = (e, id) => {
+        e.target.disabled = true;
+        dispatch(AdminDeleteUser(id))
+    }
 
     useEffect(() => {
         if(error) {
@@ -87,17 +88,18 @@ export default function UserList() {
             })
             return
         }
-        // if(isProductDeleted) {
-        //     toast('Product Deleted Succesfully!',{
-        //         type: 'success',
-        //         position: toast.POSITION.BOTTOM_CENTER,
-        //         onOpen: () => dispatch(clearProductDeleted())
-        //     })
-        //     return;
-        // }
+        if(isAdminDeleteUser) {
+            toast('User Deleted Succesfully!',{
+                type: 'success',
+                position: 'bottom-center',
+                onOpen: () => dispatch(adminDeleteUserSuccess())
+            })
+            
+        }
 
         dispatch(adminGetUsersDetails())
-    },[dispatch, error])
+
+    },[dispatch, error,isAdminDeleteUser])
 
 
     return (

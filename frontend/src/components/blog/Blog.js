@@ -27,7 +27,7 @@ export default function Blog({ blog }) {
             <p>{`Date -${format(new Date(blog.createdAt), "yyyy-MM-dd")}`}</p>
             
           <h5 className="card-title">
-            <Link to={`/blog/${blog._id}`} href="#">{blog.title}</Link>
+            <Link to={`/blog/${blog._id}`} >{blog.title}</Link>
           </h5>
           <p>{truncateText(blog.body, 25)}</p>
 

@@ -18,15 +18,18 @@ const upload=multer({storage:multer.diskStorage({
 router.route('/blog').get(getBlogs);
 
 
-router.route('/blog/:id')
-.get(getSingleBlog)
-.put(updateBlog)
-.delete(deleteBlog);
+router.route('/blog/:id').get(getSingleBlog);
+
+
 
 router.route('/myblogs').get(isAuthendicatedUser,myBlogs)
+router.route('/myblog/:id').delete(isAuthendicatedUser,authorizeRole('admin','user'),deleteBlog);
+router.route('/blog/update/:id').put(isAuthendicatedUser,authorizeRole('user','admin'),upload.array('images'),updateBlog);
 
 router.route('/blog/new').post(isAuthendicatedUser,upload.array('images'),createNewBlog);
 router.route('/admin/blogs').get(isAuthendicatedUser,authorizeRole('admin'),getAdminBlogs);
+router.route('/admin/blog/:id').delete(isAuthendicatedUser,authorizeRole('admin'),deleteBlog);
+// router.route('/admin/blog/:id').put(isAuthendicatedUser,authorizeRole('admin'),upload.array('images'),updateBlog);
 
 
 

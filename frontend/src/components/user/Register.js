@@ -55,7 +55,7 @@ export default function Register(){
 
     if(isAuthenticated) {
       navigate(`/`)
-      return
+      return;
   }
 
     if(error)  {
@@ -69,7 +69,7 @@ export default function Register(){
       return
   }
 
-  },[error])
+  },[error,isAuthenticated])
 
 
     return(

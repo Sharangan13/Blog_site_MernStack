@@ -25,6 +25,7 @@ import BlogList from './components/admin/BlogList';
 import UserList from './components/admin/UserList';
 import AdminList from './components/admin/AdminList';
 import MyBlogs from './components/blog/MyBlogs';
+import UpdateBlog from './components/blog/UpdateBlog';
 
 function App() {
 
@@ -55,6 +56,8 @@ function App() {
         <Route path='/blog/new' element={<ProtectedRoute><CreateBlog/></ProtectedRoute>}/>
         <Route path='/password/forgot' element={<ForgotPassword/>}/>
         <Route path='/password/reset/:token' element={<ResetPassword/>}/>
+        <Route path='/blog/update/:id' element={<ProtectedRoute><UpdateBlog/></ProtectedRoute>}/>
+
      </Routes>
 
 
@@ -64,6 +67,7 @@ function App() {
      <Route path='/admin/blogs' element={<ProtectedRoute isAdmin={true}><BlogList/></ProtectedRoute>}/>
      <Route path='/admin/users' element={<ProtectedRoute isAdmin={true}><UserList/></ProtectedRoute>}/>
      <Route path='/admin/admins' element={<ProtectedRoute isAdmin={true}><AdminList/></ProtectedRoute>}/>
+    
 
 
      </Routes>

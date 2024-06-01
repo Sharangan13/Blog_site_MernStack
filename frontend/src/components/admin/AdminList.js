@@ -5,9 +5,9 @@ import { Link } from "react-router-dom"
 import { MDBDataTable} from 'mdbreact';
 import {toast } from 'react-toastify'
 import Sidebar from "./Sidebar"
-import { clearError } from "../../slices/UsersSlice"
+import { adminDeleteUserSuccess, clearError } from "../../slices/UsersSlice"
 
-import { adminGetUsersDetails } from "../../actions/AdminAction";
+import { AdminDeleteUser, adminGetUsersDetails } from "../../actions/AdminAction";
 import Loader from "../layouts/Loder";
 
 export default function AdminList() {
@@ -19,7 +19,8 @@ export default function AdminList() {
         return text;
     };
 
-    const { users = [], loading = true, error }  = useSelector(state => state.usersState)
+    const { users = [], loading = true, error,isAdminDeleteUser }  = useSelector(state => state.usersState)
+    const {user :currentUser} = useSelector(state=>state.authState)
     
     const dispatch = useDispatch();
 
@@ -62,7 +63,7 @@ export default function AdminList() {
                 actions: (
                     <Fragment>
                         <Link to={`/admin/blog/${user._id}`} className="btn btn-primary"> <i className="fa fa-pencil"></i></Link>
-                        <Button onClick={e => deleteHandler(e, user._id)} className="btn btn-danger py-1 px-2 ml-2">
+                        <Button onClick={e => deleteHandler(e, user._id)} className="btn btn-danger py-1 px-2 ml-2" disabled={user._id === currentUser._id}>
                             <i className="fa fa-trash"></i>
                         </Button>
                     </Fragment>
@@ -73,10 +74,10 @@ export default function AdminList() {
         return data;
     }
 
-    // const deleteHandler = (e, id) => {
-    //     e.target.disabled = true;
-    //     dispatch(deleteProduct(id))
-    // }
+    const deleteHandler = (e, id) => {
+        e.target.disabled = true;
+        dispatch(AdminDeleteUser(id))
+    }
 
     useEffect(() => {
         if(error) {
@@ -87,17 +88,17 @@ export default function AdminList() {
             })
             return
         }
-        // if(isProductDeleted) {
-        //     toast('Product Deleted Succesfully!',{
-        //         type: 'success',
-        //         position: toast.POSITION.BOTTOM_CENTER,
-        //         onOpen: () => dispatch(clearProductDeleted())
-        //     })
-        //     return;
-        // }
+        if(isAdminDeleteUser) {
+            toast('Admin Deleted Succesfully!',{
+                type: 'success',
+                position: 'bottom-center',
+                onOpen: () => dispatch(adminDeleteUserSuccess())
+            })
+            
+        }
 
         dispatch(adminGetUsersDetails())
-    },[dispatch, error])
+    },[dispatch, error,isAdminDeleteUser])
 
 
     return (

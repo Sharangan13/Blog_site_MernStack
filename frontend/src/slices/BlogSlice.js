@@ -6,6 +6,8 @@ const blogSlice = createSlice({
     initialState: {
         loading: true,
         btnDisable:false,
+        isBlogDeleted:false,
+        isBlogUpdated:false,
         blog:{}
     },
     reducers: {
@@ -69,7 +71,67 @@ const blogSlice = createSlice({
                 ...state,
                 error: null
             }
-        }
+        },
+
+        deleteBlogRequest(state, action){
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        deleteBlogSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+                isBlogDeleted:true
+                
+            }
+        },
+        deleteBlogFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload
+            }
+        },
+        clearBlogDeleted(state, action){
+            return {
+                ...state,
+                isBlogDeleted:false
+            }
+        },
+
+
+        updateBlogRequest(state, action){
+            return {
+                ...state,
+                loading:true,
+                
+            }
+        },
+        updateBlogSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+                blog: action.payload.blog,
+                isBlogUpdated:true
+                
+            }
+        },
+        updateBlogFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload,
+                
+            }
+        },
+        clearBlogUpdated(state, action){
+            return {
+                ...state,
+                isBlogUpdated:false
+            }
+        },
        
     }
 });
@@ -86,7 +148,17 @@ export const {
     createBlogFail,
     
     clearError,
-    clearCreatedBlog
+    clearCreatedBlog,
+
+    deleteBlogRequest,
+    deleteBlogSuccess,
+    deleteBlogFail,
+    clearBlogDeleted,
+
+    updateBlogRequest,
+    updateBlogSuccess,
+    updateBlogFail,
+    clearBlogUpdated
 
 } = actions;
 

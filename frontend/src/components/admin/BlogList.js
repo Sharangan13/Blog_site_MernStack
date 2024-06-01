@@ -1,13 +1,14 @@
 import { Fragment, useEffect } from "react"
 import { Button } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
-import { Link } from "react-router-dom"
 import { MDBDataTable} from 'mdbreact';
 import {toast } from 'react-toastify'
 import Sidebar from "./Sidebar"
 import { adminClearError } from "../../slices/BlogsSlice"
 import { adminGetBlogs } from "../../actions/BlogsActions"
 import Loader from "../layouts/Loder";
+import { deleteBlog } from "../../actions/BlogActions";
+import { clearBlogDeleted } from "../../slices/BlogSlice";
 
 export default function BlogList() {
 
@@ -18,10 +19,11 @@ export default function BlogList() {
         return text;
     };
     const { blogs = [], loading = true, error }  = useSelector(state => state.blogsState)
-    
+    const { isBlogDeleted,error:blogerror }  = useSelector(state => state.blogState)
+
     const dispatch = useDispatch();
 
-    const setProducts = () => {
+    const setBlogs = () => {
         const data = {
             columns : [
                 {
@@ -62,8 +64,7 @@ export default function BlogList() {
                 authorId : blog.authorId,
                 actions: (
                     <Fragment>
-                        <Link to={`/admin/blog/${blog._id}`} className="btn btn-primary"> <i className="fa fa-pencil"></i></Link>
-                        <Button onClick={e => deleteHandler(e, product._id)} className="btn btn-danger py-1 px-2 ml-2">
+                        <Button onClick={e => deleteHandler(e, blog._id)} className="btn btn-danger py-1 px-2 ml-2">
                             <i className="fa fa-trash"></i>
                         </Button>
                     </Fragment>
@@ -76,29 +77,29 @@ export default function BlogList() {
 
     const deleteHandler = (e, id) => {
         e.target.disabled = true;
-        dispatch(deleteProduct(id))
+        dispatch(deleteBlog(id))
     }
 
     useEffect(() => {
-        if(error) {
-            toast(error, {
+        if(error || blogerror) {
+            toast(error|| blogerror, {
                 position:"bottom-center",
                 type: 'error',
                 onOpen: ()=> { dispatch(adminClearError()) }
             })
             return
         }
-        // if(isProductDeleted) {
-        //     toast('Product Deleted Succesfully!',{
-        //         type: 'success',
-        //         position: toast.POSITION.BOTTOM_CENTER,
-        //         onOpen: () => dispatch(clearProductDeleted())
-        //     })
-        //     return;
-        // }
+        if(isBlogDeleted) {
+            toast('Blog Deleted Succesfully!',{
+                type: 'success',
+                position:"bottom-center",
+                onOpen: () => dispatch(clearBlogDeleted())
+            })
+            return;
+        }
 
         dispatch(adminGetBlogs())
-    },[dispatch, error])
+    },[dispatch, error,isBlogDeleted])
 
 
     return (
@@ -107,11 +108,11 @@ export default function BlogList() {
                 <Sidebar/>
         </div>
         <div className="col-12 col-md-10">
-            <h1 className="my-4">Product List</h1>
+            <h1 className="my-4">Blog List</h1>
             <Fragment>
                 {loading ? <Loader/> : 
                     <MDBDataTable
-                        data={setProducts()}
+                        data={setBlogs()}
                         bordered
                         striped
                         hover

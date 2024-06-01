@@ -5,7 +5,8 @@ const myBlogsSlice = createSlice({
     name: 'myBlogs',
     initialState: {
         loading: false,
-        myBlogs:{}
+        isBlogDeleted:false,
+        myBlogs:[]
     },
     reducers: {
         
@@ -30,6 +31,40 @@ const myBlogsSlice = createSlice({
                 error:  action.payload
             }
         },
+
+        deleteMyBlogRequest(state, action){
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        deleteMyBlogSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+                isBlogDeleted:true
+                
+                
+            }
+        },
+        deleteMyBlogFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload
+            }
+        },
+
+        clearMyBlogDeleted(state, action){
+            return {
+                ...state,
+                isBlogDeleted:false,
+                error:null
+
+            }
+        },
+
+
        
     }
 });
@@ -39,7 +74,12 @@ const { actions, reducer } = myBlogsSlice;
 export const { 
     myBlogsRequest,
     myBlogsSuccess,
-    myBlogsFail
+    myBlogsFail,
+
+    deleteMyBlogRequest,
+    deleteMyBlogSuccess,
+    deleteMyBlogFail,
+    clearMyBlogDeleted
 
 } = actions;
 

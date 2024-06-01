@@ -5,6 +5,7 @@ const usersSlice = createSlice({
     name: 'usersDetail',
     initialState: {
         loading: true,
+        isAdminDeleteUser:false,
         users:{}
     },
     reducers: {
@@ -31,7 +32,39 @@ const usersSlice = createSlice({
                 ...state,
                 error: null
             }
-        }
+        },
+
+        adminDeleteUserRequest(state, action){
+            return {
+                ...state,
+                loading: true
+            }
+        },
+        adminDeleteUserSuccess(state, action){
+            return {
+                ...state,
+                loading: false,
+                isAdminDeleteUser:true
+                
+                
+            }
+        },
+        adminDeleteUserFail(state, action){
+            return {
+                ...state,
+                loading: false,
+                error:  action.payload
+            }
+        },
+
+        isAdminDeleteUserClear(state, action){
+            return {
+                ...state,
+                isAdminDeleteUser:false,
+                
+
+            }
+        },
        
     }
 });
@@ -42,7 +75,12 @@ export const {
     adminGetUsersDetailsRequest,
     adminGetUsersDetailsSuccess,
     adminGetUsersDetailsFail,
-    clearError
+    clearError,
+
+    adminDeleteUserRequest,
+    adminDeleteUserSuccess,
+    adminDeleteUserFail,
+    isAdminDeleteUserClear
 
 } = actions;
 
