@@ -1,10 +1,10 @@
 const express =require("express");
 const userSchemaModel = require("../models/userModel");
-const { registerUser, loginUser, forgotPassword, resetPassword, logoutUser, getUserProfile, changePassword, updateProfile, adminGetAllUsers, adminGetSpecificUser, adminUpdateUserDetails, adminDeleteUser } = require("../controllers/authController");
+const { registerUser, loginUser, forgotPassword, resetPassword, logoutUser, getUserProfile, changePassword, updateProfile, adminGetAllUsers, adminGetSpecificUser, adminDeleteUser, adminUpdateUserDetails } = require("../controllers/authController");
 const { isAuthendicatedUser, authorizeRole } = require("../middlewares/authendicate");
 const router = express.Router();
 const multer = require("multer")
-const path = require("path")
+const path = require("path");
 
 const upload=multer({storage:multer.diskStorage({
     destination:function(req,file,cb){

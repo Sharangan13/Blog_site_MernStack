@@ -3,6 +3,7 @@ import blogsReducer from "./slices/BlogsSlice";
 import blogReducer from "./slices/BlogSlice";
 import authReducer from "./slices/AuthSlice";
 import usersState from "./slices/UsersSlice";
+import userState from "./slices/UserSlice";
 import myblogsState from "./slices/MyBlogsSlice";
 
 
@@ -12,7 +13,9 @@ const reducer = combineReducers({
     blogState:blogReducer,
     authState:authReducer,
     usersState:usersState,
+    userState:userState,
     myblogsState:myblogsState
+
 
 
 

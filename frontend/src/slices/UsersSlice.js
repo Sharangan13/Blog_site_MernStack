@@ -6,9 +6,12 @@ const usersSlice = createSlice({
     initialState: {
         loading: true,
         isAdminDeleteUser:false,
-        users:{}
+        isAdminUpdateUser:false,
+        users:{},
+       
     },
     reducers: {
+
         adminGetUsersDetailsRequest(state, action){
             return {
                 loading: true
@@ -64,7 +67,7 @@ const usersSlice = createSlice({
                 
 
             }
-        },
+        }
        
     }
 });

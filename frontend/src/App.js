@@ -26,6 +26,9 @@ import UserList from './components/admin/UserList';
 import AdminList from './components/admin/AdminList';
 import MyBlogs from './components/blog/MyBlogs';
 import UpdateBlog from './components/blog/UpdateBlog';
+import AdminUpdateUser from './components/admin/UpdateUserDetails';
+import AdminUpdateAdminDetails from './components/admin/UpdateAdminDetails';
+
 
 function App() {
 
@@ -66,6 +69,10 @@ function App() {
      <Route path='/admin/dashboard' element={<ProtectedRoute isAdmin={true}><Dashboard/></ProtectedRoute>}/>
      <Route path='/admin/blogs' element={<ProtectedRoute isAdmin={true}><BlogList/></ProtectedRoute>}/>
      <Route path='/admin/users' element={<ProtectedRoute isAdmin={true}><UserList/></ProtectedRoute>}/>
+
+     <Route path='/admin/user/:id' element={<ProtectedRoute isAdmin={true}><AdminUpdateUser/></ProtectedRoute>}/>
+     <Route path='/admin/admin/:id' element={<ProtectedRoute isAdmin={true}><AdminUpdateAdminDetails/></ProtectedRoute>}/>
+
      <Route path='/admin/admins' element={<ProtectedRoute isAdmin={true}><AdminList/></ProtectedRoute>}/>
     
 

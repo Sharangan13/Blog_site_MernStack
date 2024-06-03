@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { LuUsers2 } from "react-icons/lu";
 import { SlNotebook } from "react-icons/sl";
+import { RiAdminFill } from "react-icons/ri";
 
 
 
@@ -23,7 +24,11 @@ export default function Sidebar () {
                 </li>
 
                 <li>
-                    <Link to="/admin/users"><LuUsers2/> Blogers</Link>
+                    <Link to="/admin/users"><LuUsers2/>Blogers</Link>
+                </li>
+
+                <li>
+                    <Link to="/admin/admins"><RiAdminFill/>Admins</Link>
                 </li>
                 
 
