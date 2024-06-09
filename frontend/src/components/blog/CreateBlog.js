@@ -156,6 +156,7 @@ export  default function CreateBlog () {
                                             className='custom-file-input'
                                             id='customFile'
                                             multiple
+                                            accept='.jpg, .jpeg, .png'
                                             required
                                             onChange={onImagesChange}
                                         

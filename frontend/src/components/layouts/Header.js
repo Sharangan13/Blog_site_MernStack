@@ -2,7 +2,7 @@ import React from 'react';
 import BlogSearch from './BlogSearch';
 import { Link, useNavigate } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import {DropdownButton, Dropdown, Image} from 'react-bootstrap';
+import { Dropdown, Image} from 'react-bootstrap';
 import { logOut } from '../../actions/UserActions';
 import { IoCreateOutline } from "react-icons/io5";
 

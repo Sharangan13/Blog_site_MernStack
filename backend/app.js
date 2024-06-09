@@ -13,5 +13,15 @@ app.use('/upload',express.static(path.join(__dirname,'upload')))
 app.use('/api/sh/',blog);
 app.use('/api/sh/',user)
 
+process.env.NODE_ENV = process.env.NODE_ENV || 'production';
+
+if(process.env.NODE_ENV ==='production'){
+    app.use(express.static(path.join(__dirname,'../frontend/build')))
+    app.get('*',(req,res)=>{
+        res.sendFile(path.resolve(__dirname,'../frontend/build/index.html'))
+    })
+    console.log(`Environment: is ..................${process.env.NODE_ENV}`)
+}
+
 app.use(middlewareError);
 module.exports = app;

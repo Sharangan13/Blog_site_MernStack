@@ -113,6 +113,7 @@ export default function UpdateProfile () {
                                 name='avatar'
                                 className='custom-file-input'
                                 id='customFile'
+                                accept='.jpg, .jpeg, .png'
                                 onChange={onChangeAvatar}
                             />
                             <label className='custom-file-label' htmlFor='customFile'>

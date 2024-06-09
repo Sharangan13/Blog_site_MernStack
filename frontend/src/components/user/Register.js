@@ -125,6 +125,7 @@ export default function Register(){
                       <input
                           type='file'
                           name='avatar'
+                          accept='.jpg, .jpeg, .png'
                           onChange={onChange}
                           className='custom-file-input'
                           id='customFile'

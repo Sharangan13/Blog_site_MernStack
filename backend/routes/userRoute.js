@@ -1,5 +1,4 @@
 const express =require("express");
-const userSchemaModel = require("../models/userModel");
 const { registerUser, loginUser, forgotPassword, resetPassword, logoutUser, getUserProfile, changePassword, updateProfile, adminGetAllUsers, adminGetSpecificUser, adminDeleteUser, adminUpdateUserDetails } = require("../controllers/authController");
 const { isAuthendicatedUser, authorizeRole } = require("../middlewares/authendicate");
 const router = express.Router();

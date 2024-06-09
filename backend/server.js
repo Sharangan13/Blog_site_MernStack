@@ -8,13 +8,15 @@ dotenv.config({path:path.join(__dirname,"config","config.env")});
 
 connectDatabase();
 
+
+
 const server = app.listen(process.env.PORT,()=>{
     console.log(`Server listening to the port: ${process.env.PORT}`)
     console.log(`Environment: ${process.env.NODE_ENV}`)
 });
 
 
-process.on('unhandleRejection',(err)=>{
+process.on('unhandledRejection',(err)=>{
     console.log(`Error : ${err.message}`);
     console.log('Shutting dow the server due to unhandle Rejection Error');
     server.close(()=>{

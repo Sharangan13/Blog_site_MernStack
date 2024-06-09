@@ -184,6 +184,7 @@ export default function UpdateBlog() {
                                         className='custom-file-input'
                                         id='customFile'
                                         multiple
+                                        accept='.jpg, .jpeg, .png'
                                         required={imagesPreview.length <= 0}
                                         onChange={onImagesChange}
                                     />

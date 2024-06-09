@@ -39,7 +39,7 @@ export default function SearchBlog() {
             <MetaData title={'Blogs'} />
 
             <div className="container mt-5">
-                <h1 id="products_heading">Results</h1>
+                <h1 id="products_heading">Result</h1>
 
                 <div className="row">
                 {blogs && blogs.length > 0 ? (
