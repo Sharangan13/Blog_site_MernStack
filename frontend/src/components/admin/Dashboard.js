@@ -12,6 +12,7 @@ import Loader from "../layouts/Loder";
 export default function Dashboard () {
 
     const {blogs=[]} = useSelector((state)=>state.blogsState)
+    
     const {users=[],loading} = useSelector((state)=>state.usersState)
     const dispatch = useDispatch();
     useEffect(()=>{
