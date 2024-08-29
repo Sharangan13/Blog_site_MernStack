@@ -12,7 +12,6 @@ const authSlice = createSlice({
         loginRequest(state, action){
             return {
                 ...state,
-                isAuthenticated:false,
                 loading: true,
             }
         },
@@ -28,7 +27,6 @@ const authSlice = createSlice({
             return {
                 ...state,
                 loading: false,
-                isAuthenticated:false,
                 error:  action.payload
             }
         },
@@ -36,7 +34,6 @@ const authSlice = createSlice({
         clearError(state, action){
             return {
                 ...state,
-                isAuthenticated:false,
                 error: null,
             }
         },

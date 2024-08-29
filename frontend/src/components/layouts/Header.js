@@ -33,7 +33,7 @@ export default function Header(){
       </div>
 
       <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
-        {!isAuthenticated? (
+        {isAuthenticated? (
           <div>
               <Dropdown className='d-inline' >
                   <Dropdown.Toggle variant='default text-white pr-5' id='dropdown-basic'>
